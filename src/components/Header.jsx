@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { disablePageScroll, enablePageScroll } from "scroll-lock";
+// import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { brainwave } from "../assets";
 
 import { navigation } from "../contants";
@@ -7,22 +7,23 @@ import Button from "../components/Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { useState } from "react";
+import { Link } from "react-scroll";
 const Header = () => {
   const pathname = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
   const toggleNavigation = () => {
     if (openNavigation) {
       setOpenNavigation(false);
-      enablePageScroll();
+      // enablePageScroll();
     } else {
       setOpenNavigation(true);
-      disablePageScroll();
+      // disablePageScroll();
     }
   };
   const handleClick = () => {
     if (!openNavigation) return;
 
-    enablePageScroll();
+    // enablePageScroll();
     setOpenNavigation(false);
   };
   return (
@@ -32,19 +33,22 @@ const Header = () => {
       }`}
     >
       <div className="flex mt-2 items-center px-5 lg:px-7.5 xl:px-10 max-xl:py-4">
-        <a className="block w-[12rem] xl:mr-8" href="#hero">
+        <Link className="block w-[12rem] xl:mr-8" to="hero">
           <img width={190} height={40} src={brainwave} alt="Brainwave" />
-        </a>
+        </Link>
         <nav
           className={`${
             openNavigation ? "flex" : "hidden"
           }  fixed top-[5rem] bottom-0 left-0 right-0  bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}
         >
-          <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
+          <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row cursor-pointer">
             {navigation.map((item) => (
-              <a
+              <Link
+                activeClass="active"
+                spy={true}
+                smooth={true}
                 key={item.id}
-                href={item.url}
+                to={item.url}
                 onClick={handleClick}
                 className={`relative block font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
                   item.onlyMobile ? "lg:hidden" : ""
@@ -55,18 +59,18 @@ const Header = () => {
                 } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
               >
                 {item.title}
-              </a>
+              </Link>
             ))}
           </div>
           <HamburgerMenu />
         </nav>
         <a
-          href="#signup"
+          href="/signup"
           className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
         >
           New Account
         </a>
-        <Button className="hidden lg:flex" href="#login">
+        <Button className="hidden lg:flex" href="/login">
           Sign In
         </Button>
 
